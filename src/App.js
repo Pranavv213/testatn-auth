@@ -35,6 +35,8 @@ function App() {
        const data = await getDocs(userCollection);
      
        let dbdata= data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+       let flag=0;
   
        for(let i=0;i<dbdata.length;i++)
           {
@@ -44,12 +46,16 @@ function App() {
                       if (dbdata[i].otp==code)
                       {
                          setMsg('User Logged In')
+                         flag=1;
+                         break;
                       }
                   }
-              else{
-                  setMsg('Wrong Code. Please Enter Correct Code')
+            
               }
-              }
+        if(flag==0)
+          {
+            setMsg("Incorrect Username or Code")
+          }
              
      }}>Let's Go</button>
      <br></br>
