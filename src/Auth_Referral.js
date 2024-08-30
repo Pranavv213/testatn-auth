@@ -12,7 +12,9 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+import './Register.css'
 const userCollection = collection(db, "user");
+
 
 function Auth_Referral() {
 
@@ -85,17 +87,27 @@ function Auth_Referral() {
     <div className="App">
       <br></br><br></br><br></br><br></br><br></br><br></br>
       <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-     <input placeholder='Enter Telegram Username' onChange={(e)=>{
+
+      <button className="open-modal">Open Modal</button>
+
+<div className="modal">
+  <div className="view">
+    <h2>Register</h2>
+    <center>
+      <span style={{ color: 'red' }}>&#9888;</span>
+      <i style={{ color: 'grey' }}>
+        Give your original username <br /> otherwise you may lose the airdrop
+      </i>
+    </center>
+    <br />
+    <br />
+    <input type="text" placeholder="Telegram username" onChange={(e)=>{
       setUsername(e.target.value)
-     }}></input>
-     <br></br>
-     <br></br>
-     <input placeholder='Enter the Code sent on the Bot' onChange={(e)=>{
+     }}/>
+    <input type="password" placeholder="Code sent on BeraBuck Bot" onChange={(e)=>{
       setCode(e.target.value)
-     }}></input>
-       <br></br>
-       <br></br>
-     <button onClick={async()=>{
+     }}/>
+    <button onClick={async()=>{
        const data = await getDocs(userCollection);
      
        let dbdata= data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -134,6 +146,10 @@ function Auth_Referral() {
           }
              
      }}>Let's Go</button>
+  </div>
+</div>
+     
+     
      <br></br>
      <br></br>
     
