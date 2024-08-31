@@ -25,7 +25,7 @@ function Auth_Referral() {
   const { referralCode } = useParams();
   const [coins,setCoins]=useState(0)
   const [highScore,setHighScore]=useState(0)
- 
+  const [referralC,setReferralC]=useState('')
 
   const referralFunction=async ()=>{
     
@@ -76,8 +76,11 @@ function Auth_Referral() {
 }}
 
   useEffect(() => {
-    referralFunction()
-  }, [referralCode]);
+    if(localStorage.getItem('userNum'))
+      {
+        navigate('/Home')
+      }
+  }, []);
 
 
 
@@ -107,6 +110,19 @@ function Auth_Referral() {
     <input type="password" placeholder="Code sent on BeraBuck Bot" onChange={(e)=>{
       setCode(e.target.value)
      }}/>
+
+    <input type="text" placeholder="Referral Code ( Optional )" onChange={(e)=>{
+      setReferralC(e.target.value)
+     }}/>
+     <center>
+     
+      <i style={{ color: 'grey' }}>
+       If you don't have a Refferal Code, <br /> leave it empty
+      </i>
+    </center>
+    <br />
+    <br />
+
     <button onClick={async()=>{
        const data = await getDocs(userCollection);
      
@@ -125,14 +141,28 @@ function Auth_Referral() {
                         localStorage.setItem('userId',dbdata[i].id)
                         localStorage.setItem('userName',dbdata[i].username)
                          setMsg('User Logged In')
-                         if(referralCode)
+                         if(referralC)
                             {
-                                window.location.reload();
+                                for(let j=0;j<dbdata.length;j++)
+                                  {
+                                    if(dbdata[j].referralCode==referralC && dbdata[i].coins==0)
+                                      {
+                                        let userDoc = doc(db, "user", dbdata[j].id);
+                                        let newFields = { username:dbdata[j].username,otp:dbdata[j].otp,friends:[...dbdata[j].friends,localStorage.getItem('userName')],coins:dbdata[j].coins+25000,highscore:0 };
+                                        await updateDoc(userDoc, newFields);
+
+                                        userDoc = doc(db, "user", dbdata[i].id);
+                                        newFields = { username:dbdata[i].username,otp:dbdata[i].otp,friends:[...dbdata[i].friends,dbdata[j].username],coins:dbdata[i].coins+25000,highscore:0 };
+                                        await updateDoc(userDoc, newFields);
+                                        window.location.reload();
+                                      }
+                                  }
+
+                                  setMsg('Incorrect Refferal Code')
+                               
                             }
-                            else
-                            {
-                                navigate('/Home')
-                            }
+
+                         
                         
                          flag=1;
                          break;
@@ -146,10 +176,13 @@ function Auth_Referral() {
           }
              
      }}>Let's Go</button>
+     <br></br>
+     {msg}
   </div>
 </div>
      
      
+     <br></br>
      <br></br>
      <br></br>
     
