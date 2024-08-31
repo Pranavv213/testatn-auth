@@ -77,6 +77,15 @@ function Home() {
 
         }
       </div>:<div>No Friends</div>}
+
+      <br></br>
+      <button onClick={()=>{
+        localStorage.removeItem('userNum');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userId');
+        window.location.reload();
+
+      }}>Clear data from localStorage</button>
       </center>
     </div>
   )
