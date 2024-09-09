@@ -140,6 +140,16 @@ function Auth_Referral() {
                         localStorage.setItem('userNum',i)
                         localStorage.setItem('userId',dbdata[i].id)
                         localStorage.setItem('userName',dbdata[i].username)
+                        localStorage.setItem("coins",dbdata[i].coins)
+                        localStorage.setItem("highscore",dbdata[i].highscore)
+                        localStorage.setItem("friends",JSON.stringify(dbdata[i].friends))
+                        localStorage.setItem("otp",dbdata[i].otp)
+                        localStorage.setItem("referralCode",dbdata[i].referralCode)
+                        localStorage.setItem("chatId",dbdata[i].chatId)
+                        let arr=dbdata;
+                        arr.sort((a, b) => b.highscore - a.highscore);
+                        localStorage.setItem("rankArray",JSON.stringify(arr.slice(0,100)))
+
                          setMsg('User Logged In')
                         //  alert(dbdata[i].referralCode)
                          if(referralC)

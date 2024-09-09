@@ -1,15 +1,5 @@
 // import React, { useState,useEffect } from 'react'
-// import { useParams,useNavigate } from 'react-router-dom';
-// import { db } from "./firebase-config.js";
-// import {
-//   collection,
-//   getDocs,
-//   addDoc,
-//   updateDoc,
-//   deleteDoc,
-//   doc,
-// } from "firebase/firestore";
-// const userCollection = collection(db, "user");
+
 
 
 // function Home() {
@@ -107,6 +97,16 @@ import beraImage from './assets/bera.png';
 import beraGif from './assets/bera.gif';
 import cactusImage from './assets/cactus.png';
 import FriendsPage from './Friends';
+import { db } from "./firebase-config.js";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+const userCollection = collection(db, "user");
 
 const GAME_WIDTH = 600;
 const GAME_HEIGHT = 200;
@@ -115,25 +115,53 @@ const BERA_HEIGHT = 60;
 const CACTUS_WIDTH = 20;
 const CACTUS_HEIGHT = 40;
 
+
+
 function GameComponent() {
   const [beraBottom, setBeraBottom] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
   const [cactusLeft, setCactusLeft] = useState(GAME_WIDTH);
   const [bucks, setBucks] = useState(0);
-  const [totalBucks, setTotalBucks] = useState(0);
-  const [maxWin, setMaxWin] = useState(0);
+  const [totalBucks, setTotalBucks] = useState(parseInt(localStorage.getItem("coins")));
+  const [maxWin, setMaxWin] = useState(parseInt(localStorage.getItem("highscore")));
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [cactusPassed, setCactusPassed] = useState(false);
   const [lastBucks, setLastBucks] = useState(0);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [playerName, setPlayerName] = useState("John Doe");
+  const [playerName, setPlayerName] = useState(localStorage.getItem('userName'));
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [beraImageSrc, setBeraImageSrc] = useState(beraImage);
   const [playerRank, setPlayerRank] = useState(0);
   const gameContainerRef = useRef(null);
   const bottomNavbarRef = useRef(null);
+  const [rankArray,setRankArray]=useState(JSON.parse(localStorage.getItem('rankArray')))
+
+const userCollection = collection(db, "user");
+
+
+  const dbsave=async ()=>{
+
+    const userDoc = doc(db, "user", localStorage.getItem("userId"));
+            const hscore=bucks>maxWin?bucks:maxWin
+            const newFields = {chatId:localStorage.getItem('chatId'),friends:JSON.parse(localStorage.getItem('friends')),username:localStorage.getItem('userName'),otp:localStorage.getItem('otp'),highscore:hscore,referralCode:localStorage.getItem('referralCode'),coins:totalBucks };
+            await updateDoc(userDoc, newFields);
+            localStorage.setItem("coins",totalBucks)
+            localStorage.setItem("highscore",hscore)
+            window.location.reload()
+  
+  }
+  
+  const dbfetch=async ()=>{
+  
+    const data = await getDocs(userCollection);
+    const dbdata=data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    setMaxWin(dbdata[0].highscore)
+    setBucks(dbdata[0].coins)
+    console.log(dbdata[0].coins)
+    // setScore(data[0].coins)
+  }
 
   const navigate = useNavigate();
 
@@ -226,6 +254,8 @@ function GameComponent() {
           setGameStarted(false);
           setShowPopup(true);
 
+          dbsave()
+
           setTimeout(() => {
             setShowPopup(false);
           }, 1000); // Changed from 3000 to 500 milliseconds
@@ -255,10 +285,17 @@ function GameComponent() {
     }
   }, [gameOver]);
 
-  const calculatePlayerRank = () => {
-    const allScores = generateLeaderboardRecords().map(record => record.maxWin);
-    const playerRank = allScores.filter(score => score > maxWin).length + 1;
-    setPlayerRank(playerRank);
+  const calculatePlayerRank = async () => {
+   
+    const data = await getDocs(userCollection);
+     
+    let dbdata= data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+   dbdata.sort((a, b) => b.highscore - a.highscore);
+
+   const index =dbdata.findIndex(item => item.username === localStorage.getItem('userName'));
+   
+    setPlayerRank(index !== -1 ? index + 1 : null);
   };
 
   const toggleLeaderboard = () => {
@@ -289,21 +326,20 @@ function GameComponent() {
     { rank: 5, name: "Eve", maxWin: 0 },
   ];
 
-  const generateLeaderboardRecords = () => {
-    let records = [];
-    for (let i = 0; i < 20; i++) {
-      records = records.concat(leaderboardData.map(record => ({
-        ...record,
-        rank: record.rank + i * 5
-      })));
-    }
-    return records.slice(0, 100);
+  const generateLeaderboardRecords = async () => {
+    const data = await getDocs(userCollection);
+     
+    let dbdata= data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+   dbdata.sort((a, b) => b.highscore - a.highscore);
+
+   setRankArray(dbdata)
   };
 
   return (
     <div className="App" style={{ fontFamily: "'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', sans-serif" }}>
       <div className="player-name-container">
-        <span className="player-name-text">Player Name: {playerName}</span>
+        <span className="player-name-text">{playerName}</span>
       </div>
       <div 
         className="game-container" 
@@ -393,11 +429,12 @@ function GameComponent() {
             <span>MaxWin</span>
           </div>
           <div className="leaderboard-table">
-            {generateLeaderboardRecords().map((record, index) => (
+            {
+             rankArray.slice(0,100).map((record, index) => (
               <div key={index} className="leaderboard-row">
-                <span>{record.rank}</span>
-                <span>{record.name}</span>
-                <span>{record.maxWin}</span>
+                <span>{index+1}</span>
+                <span>{record.username}</span>
+                <span>{record.highscore}</span>
               </div>
             ))}
           </div>
@@ -439,6 +476,8 @@ function GameComponent() {
     </div>
   );
 }
+
+
 
 function Home() {
   return (

@@ -17,7 +17,8 @@ const FriendsPage = () => {
 	const navigate = useNavigate();
 
 	const copyInviteLink = () => {
-		navigator.clipboard.writeText('https://t.me/berabuck');
+		navigator.clipboard.writeText(
+			`Hey there ! Play Berabucks using this link https://t.me/test_atn_bot . Use my Refferal Code ${localStorage.getItem('referralCode')} to earn 25000 Bucks for free`);
 		setShowCopiedPopup(true);
 		setTimeout(() => setShowCopiedPopup(false), 2000);
 	};
@@ -46,7 +47,7 @@ const FriendsPage = () => {
 							Share the fun with your friends and get rewards! Use the link below to invite your friends to join the game.
 						</p>
 						<div className="invite-link">
-							<input type="text" readOnly value="https://yourgame.com/invite" />
+							<input type="text" readOnly value={localStorage.getItem('referralCode')} />
 							<button onClick={copyInviteLink}>
 								Copy Link
 							</button>
