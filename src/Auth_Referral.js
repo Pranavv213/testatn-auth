@@ -141,12 +141,15 @@ function Auth_Referral() {
                         localStorage.setItem('userId',dbdata[i].id)
                         localStorage.setItem('userName',dbdata[i].username)
                          setMsg('User Logged In')
+                        //  alert(dbdata[i].referralCode)
                          if(referralC)
                             {
                                 for(let j=0;j<dbdata.length;j++)
                                   {
+                                    console.log(dbdata[j].referralCode)
                                     if(dbdata[j].referralCode==referralC && dbdata[i].coins==0)
                                       {
+
                                         let userDoc = doc(db, "user", dbdata[j].id);
                                         let newFields = { username:dbdata[j].username,otp:dbdata[j].otp,friends:[...dbdata[j].friends,localStorage.getItem('userName')],coins:dbdata[j].coins+25000,highscore:0 };
                                         await updateDoc(userDoc, newFields);
@@ -161,6 +164,10 @@ function Auth_Referral() {
                                   setMsg('Incorrect Refferal Code')
                                
                             }
+                            else if(referralC=="")
+                              {
+                                window.location.reload();
+                              }
 
                          
                         
