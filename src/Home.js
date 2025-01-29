@@ -55,12 +55,12 @@ const Home = () => {
     <div className="home-container" >
        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand href="#home"><img style={{width:'2em' }} src={logo}></img> {localStorage.getItem('userName')}</Navbar.Brand>
+        <Navbar.Brand href="https://testatn-auth.vercel.app/"><img style={{width:'2em' }} src={logo}></img> {localStorage.getItem('userName')}</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#features">Events</Nav.Link>
-            <Nav.Link href="#pricing">Partner</Nav.Link>
+            <Nav.Link href="https://extended-adapts-994414.framer.app/">Events</Nav.Link>
+            <Nav.Link href="https://extended-adapts-994414.framer.app/partner">Partner</Nav.Link>
             
           </Nav>
           <Nav>
