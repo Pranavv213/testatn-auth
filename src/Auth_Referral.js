@@ -13,6 +13,10 @@ import {
   doc,
 } from "firebase/firestore";
 import './Register.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import logo2 from './assets/logo2.png'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 const userCollection = collection(db, "user");
 
 
@@ -88,42 +92,39 @@ function Auth_Referral() {
 
   return (
     <div className="App">
-      <br></br><br></br><br></br><br></br><br></br><br></br>
-      <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+      <br></br><br></br><br></br><br></br>
+    
+      
 
-      <button className="open-modal">Open Modal</button>
 
-<div className="modal">
-  <div className="view">
-    <h2>Register</h2>
-    <center>
-      <span style={{ color: 'red' }}>&#9888;</span>
-      <i style={{ color: 'grey' }}>
-        Give your original username <br /> otherwise you may lose the airdrop
-      </i>
-    </center>
-    <br />
-    <br />
-    <input type="text" placeholder="Telegram username" onChange={(e)=>{
+     
+
+     <center>
+<div style={{
+  width:'80%',
+  background: "rgba(255, 255, 255, 0.2)",
+  borderRadius: "16px",
+  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+  backdropFilter: "blur(5px)",
+  WebkitBackdropFilter: "blur(5px)", // Use camelCase for vendor prefixes
+  border: "1px solid rgba(255, 255, 255, 0.3)"
+}}>
+      
+     <img style={{width:'10em'}} src={logo2}></img>
+     <br></br><br></br>
+      <input style={{ width:'17em', height:'2em',backgroundColor:'#e0c8de'}} type="text" placeholder="Telegram username" onChange={(e)=>{
       setUsername(e.target.value)
      }}/>
-    <input type="password" placeholder="Code sent on BeraBuck Bot" onChange={(e)=>{
+     <br></br>  <br></br>
+    <input style={{ width:'17em', height:'2em',backgroundColor:'#e0c8de'}} type="password" placeholder="Code sent on Bot" onChange={(e)=>{
       setCode(e.target.value)
      }}/>
-
-    <input type="text" placeholder="Referral Code ( Optional )" onChange={(e)=>{
-      setReferralC(e.target.value)
-     }}/>
-     <center>
      
-      <i style={{ color: 'grey' }}>
-       If you don't have a Refferal Code, <br /> leave it empty
-      </i>
-    </center>
-    <br />
-    <br />
 
-    <button onClick={async()=>{
+ <br></br> <br></br>
+   
+
+    <Button style={{ width:'17em'}} onClick={async()=>{
        const data = await getDocs(userCollection);
      
        let dbdata= data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -140,11 +141,10 @@ function Auth_Referral() {
                         localStorage.setItem('userNum',i)
                         localStorage.setItem('userId',dbdata[i].id)
                         localStorage.setItem('userName',dbdata[i].username)
-                        localStorage.setItem("coins",dbdata[i].coins)
-                        localStorage.setItem("highscore",dbdata[i].highscore)
-                        localStorage.setItem("friends",JSON.stringify(dbdata[i].friends))
+                        localStorage.setItem("points",dbdata[i].points)
+                        localStorage.setItem("walletAddress",dbdata[i].walletAddress)
+                        localStorage.setItem("friends",JSON.stringify(dbdata[i].events))
                         localStorage.setItem("otp",dbdata[i].otp)
-                        localStorage.setItem("referralCode",dbdata[i].referralCode)
                         localStorage.setItem("chatId",dbdata[i].chatId)
                         let arr=dbdata;
                         arr.sort((a, b) => b.highscore - a.highscore);
@@ -152,34 +152,9 @@ function Auth_Referral() {
 
                          setMsg('User Logged In')
                         //  alert(dbdata[i].referralCode)
-                         if(referralC)
-                            {
-                                for(let j=0;j<dbdata.length;j++)
-                                  {
-                                    console.log(dbdata[j].referralCode)
-                                    if(dbdata[j].referralCode==referralC && dbdata[i].coins==0)
-                                      {
+                        
 
-                                        let userDoc = doc(db, "user", dbdata[j].id);
-                                        let newFields = { username:dbdata[j].username,otp:dbdata[j].otp,friends:[...dbdata[j].friends,localStorage.getItem('userName')],coins:dbdata[j].coins+25000,highscore:0 };
-                                        await updateDoc(userDoc, newFields);
-
-                                        userDoc = doc(db, "user", dbdata[i].id);
-                                        newFields = { username:dbdata[i].username,otp:dbdata[i].otp,friends:[...dbdata[i].friends,dbdata[j].username],coins:dbdata[i].coins+25000,highscore:0 };
-                                        await updateDoc(userDoc, newFields);
-                                        window.location.reload();
-                                      }
-                                  }
-
-                                  setMsg('Incorrect Refferal Code')
-                               
-                            }
-                            else if(referralC=="")
-                              {
-                                window.location.reload();
-                              }
-
-                         
+                        window.location.reload();
                         
                          flag=1;
                          break;
@@ -192,22 +167,16 @@ function Auth_Referral() {
             setMsg("Incorrect Username or Code")
           }
              
-     }}>Let's Go</button>
+     }}>Let's Go</Button>
+      <br></br><br></br><br></br><br></br>
+     </div>
+</center>
+     
      <br></br>
      {msg}
   </div>
-</div>
-     
-     
-     <br></br>
-     <br></br>
-     <br></br>
-    
-   {msg}
-     <br></br>
-     <br></br>
-     
-    </div>
+
+
   );
 }
 

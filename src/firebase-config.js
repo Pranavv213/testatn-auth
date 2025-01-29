@@ -3,13 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBm4doekL9W3Jr9jpblTacyzBm35aJMC4g",
-    authDomain: "nitropay-f1182.firebaseapp.com",
-    projectId: "nitropay-f1182",
-    storageBucket: "nitropay-f1182.appspot.com",
-    messagingSenderId: "549275767693",
-    appId: "1:549275767693:web:4b344eb7432c728e8363c4",
-    measurementId: "G-ZNW4K9JETN"
+    apiKey: "AIzaSyB3GAkiUqafPB7PbpO5TDIOdeQUi7adXFY",
+    authDomain: "connectverse-events.firebaseapp.com",
+    projectId: "connectverse-events",
+    storageBucket: "connectverse-events.firebasestorage.app",
+    messagingSenderId: "874888962547",
+    appId: "1:874888962547:web:a24dace8d36e6d6d267286",
+    measurementId: "G-Y3LYGV7LKS"
 };
 
 
