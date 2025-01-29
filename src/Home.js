@@ -66,6 +66,13 @@ const Home = () => {
           <Nav>
             <Nav.Link href="#deets">Airdrop</Nav.Link>
            
+          </Nav><Nav>
+            <Nav.Link onClick={()=>{
+               localStorage.clear();
+               window.location.reload();
+
+            }}>Refresh</Nav.Link>
+           
           </Nav>
         </Navbar.Collapse>
       </Container>
