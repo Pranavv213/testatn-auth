@@ -19,6 +19,7 @@ import {
   doc,
 } from "firebase/firestore";
 import './Register.css'
+
 const userCollection = collection(db, "user");
 
 
@@ -81,7 +82,7 @@ const Home = () => {
      
       
       <div class="points">
-      <img style={{width:'8em'}} src={coin}></img> :<p style={{fontSize:'55px'}}>{coins}</p> 
+      <img style={{width:'8em'}} src={coin}></img> :<p style={{fontSize:'55px',color:'white'}}><b>{coins}</b></p> 
       </div>
     </div>
   );

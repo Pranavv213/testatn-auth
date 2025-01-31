@@ -112,11 +112,11 @@ function Auth_Referral() {
       
      <img style={{width:'10em'}} src={logo2}></img>
      <br></br><br></br>
-      <input style={{ width:'17em', height:'2em',backgroundColor:'#e0c8de'}} type="text" placeholder="Telegram username" onChange={(e)=>{
+      <input style={{ width:'17em', height:'2em',backgroundColor:'black'}} type="text" placeholder="              Telegram username" onChange={(e)=>{
       setUsername(e.target.value)
      }}/>
      <br></br>  <br></br>
-    <input style={{ width:'17em', height:'2em',backgroundColor:'#e0c8de'}} type="password" placeholder="Code sent on Bot" onChange={(e)=>{
+    <input style={{ width:'17em', height:'2em',backgroundColor:'black'}} type="password" placeholder="              Code sent on Bot" onChange={(e)=>{
       setCode(e.target.value)
      }}/>
      
