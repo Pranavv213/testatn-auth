@@ -15,14 +15,13 @@ function Attend() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="https://extended-adapts-994414.framer.app/">Events</Nav.Link>
-            <Nav.Link href="https://extended-adapts-994414.framer.app/partner">Partner</Nav.Link>
-            
+            <Nav.Link href="https://connectverse.club">Home</Nav.Link>
+            <Nav.Link href="https://connectverse.club/events">Events</Nav.Link>
+            <Nav.Link href="https://connectverse.club/partner">Partners</Nav.Link>
+            <Nav.Link href="https://t.me/ConnectVerseBot">Earn</Nav.Link>
+            <Nav.Link href="">Attend</Nav.Link>
           </Nav>
-          <Nav>
-            <Nav.Link href="#deets">Airdrop</Nav.Link>
-           
-          </Nav><Nav>
+         <Nav>
             <Nav.Link onClick={()=>{
                localStorage.clear();
                window.location.reload();
