@@ -60,8 +60,8 @@ const Home = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="https://extended-adapts-994414.framer.app/">Events</Nav.Link>
-            <Nav.Link href="https://extended-adapts-994414.framer.app/partner">Partner</Nav.Link>
+            <Nav.Link href="https://connectverse.club/events2">Events</Nav.Link>
+            <Nav.Link href="https://connectverse.club/partner2">Partner</Nav.Link>
             
           </Nav>
           <Nav>
